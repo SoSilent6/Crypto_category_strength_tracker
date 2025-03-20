@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+.venv
+.env.*
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+
+# IDE - PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Logs
+*.log
+logs/
+papertrail*.log
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+*.sqlite3
+*.db
+
+# Temporary files
+*.swp
+*.swo
+*~
+.~*
+*.bak
+*.tmp 

@@ -1,0 +1,57 @@
+{
+  "name": "crypto_frontend",
+  "version": "1.0.0",
+  "source": ["static/js/graph.js", "static/js/graph_1h.js", "static/js/dashboard.js", "static/js/search.js", "static/js/multi_category_search.js", "static/js/performance_monitor.js"],
+  "targets": {
+    "graph": {
+      "source": "./static/js/graph.js",
+      "distDir": "./static/dist",
+      "isLibrary": true
+    },
+    "graph_1h": {
+      "source": "./static/js/graph_1h.js",
+      "distDir": "./static/dist",
+      "isLibrary": true
+    },
+    "dashboard": {
+      "source": "./static/js/dashboard.js",
+      "distDir": "./static/dist",
+      "isLibrary": true
+    },
+    "search": {
+      "source": "./static/js/search.js",
+      "distDir": "./static/dist",
+      "isLibrary": true
+    },
+    "multi_category_search": {
+      "source": "./static/js/multi_category_search.js",
+      "distDir": "./static/dist",
+      "isLibrary": true
+    },
+    "performance_monitor": {
+      "source": "./static/js/performance_monitor.js",
+      "distDir": "./static/dist",
+      "isLibrary": true
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "start": "parcel static/js/graph.js static/js/graph_1h.js static/js/dashboard.js static/js/search.js static/js/multi_category_search.js static/js/performance_monitor.js",
+    "build": "parcel build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-zoom": "^2.2.0",
+    "date-fns": "^2.30.0",
+    "flatpickr": "^4.6.13"
+  },
+  "devDependencies": {
+    "parcel": "^2.13.3"
+  }
+}

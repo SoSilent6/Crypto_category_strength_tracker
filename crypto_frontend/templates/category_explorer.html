@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Explorer - Crypto Narrative Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--darkest);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        .explorer-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--darkest);
+        }
+        
+        .category-list {
+            width: 300px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--darker);
+            border-right: 1px solid var(--dark);
+        }
+
+        .back-link {
+            display: block;
+            padding: 0 0 15px 0;
+            color: var(--aqua);
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        .back-link::before {
+            content: '←';
+            margin-right: 5px;
+        }
+        
+        .token-container {
+            flex-grow: 1;
+            padding: 20px 30px;
+            overflow-y: auto;
+            background-color: var(--darkest);
+        }
+        
+        .category-button {
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border: none;
+            background-color: var(--dark);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-button::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--red);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-button:hover {
+            background-color: var(--dark);
+            color: var(--white);
+            transform: translateX(5px);
+        }
+        
+        .category-button:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .category-button.active {
+            background-color: var(--dark);
+            color: var(--white);
+            transform: translateX(5px);
+        }
+        
+        .category-button.active::before {
+            transform: scaleY(1);
+        }
+        
+        #selected-category {
+            margin: 0 0 30px 0;
+            font-size: 2em;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .token-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+        
+        .token-table th {
+            background-color: transparent;
+            padding: 12px;
+            text-align: left;
+            color: var(--text);
+            font-weight: 500;
+            border-bottom: 1px solid var(--dark);
+        }
+        
+        .token-table td {
+            padding: 12px;
+            background-color: var(--darker);
+            height: 45px;
+        }
+        
+        .token-table tr td:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .token-table tr td:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .token-table tr {
+            transition: transform 0.2s ease;
+        }
+        
+        .token-table tr:hover {
+            transform: translateY(-2px);
+        }
+        
+        .token-table tr:hover td {
+            background-color: var(--dark);
+            color: var(--white);
+        }
+        
+        .other-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .category-tag {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            background-color: var(--dark);
+            color: var(--text);
+            transition: all 0.2s ease;
+            border-left: 3px solid var(--red);
+        }
+        
+        .category-tag:hover {
+            background-color: var(--darkest);
+            color: var(--white);
+            transform: translateY(-1px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <div class="explorer-container">
+        <div class="category-list">
+            <a href="/" class="back-link">Back to Dashboard</a>
+            {% for category in categories %}
+            <button class="category-button" data-category="{{ category }}">
+                {{ category }}
+            </button>
+            {% endfor %}
+        </div>
+        
+        <div class="token-container">
+            <h2 id="selected-category">Select a category</h2>
+            <table class="token-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Name</th>
+                        <th>
+                            Other Categories 
+                            <span style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">
+                                (This project also falls in)
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="token-list">
+                    <!-- Token data will be loaded here -->
+                    <tr>
+                        <td colspan="3" class="empty-state">Select a category to view tokens</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-button');
+            const tokenList = document.getElementById('token-list');
+            const selectedCategoryTitle = document.getElementById('selected-category');
+            const allTokens = {{ all_tokens|tojson|safe }};
+            
+            // Debug logging
+            console.log("All tokens loaded:", allTokens);
+            
+            function displayTokens(category) {
+                console.log("Displaying tokens for category:", category);
+                console.log("Tokens for this category:", allTokens[category]);
+                
+                const tokens = allTokens[category];
+                
+                if (!tokens || tokens.length === 0) {
+                    tokenList.innerHTML = `
+                        <tr>
+                            <td colspan="3" class="empty-state">No tokens found in this category</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tokenList.innerHTML = tokens.map(token => `
+                    <tr>
+                        <td>${token.symbol}</td>
+                        <td>${token.name}</td>
+                        <td>
+                            <div class="other-categories">
+                                ${token.other_categories.map(cat => `
+                                    <span class="category-tag">
+                                        ${cat}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update title and display tokens
+                    const category = this.dataset.category;
+                    selectedCategoryTitle.textContent = category;
+                    displayTokens(category);
+                });
+            });
+            
+            // Display initial category if one exists
+            if (categoryButtons.length > 0) {
+                const firstCategory = categoryButtons[0].dataset.category;
+                selectedCategoryTitle.textContent = firstCategory;
+                displayTokens(firstCategory);
+                categoryButtons[0].classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Category Strength Against BTC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <!-- Add preloaded data before loading our scripts -->
+    <script type="text/javascript">
+        window.preloadedData = JSON.parse('{{ preloaded_data|safe }}');
+        window.availableCategories = JSON.parse('{{ categories|tojson|safe }}');
+        window.categoryColors = JSON.parse('{{ category_colors|tojson|safe }}');
+        window.calculationTypes = JSON.parse('{{ calculation_types|tojson|safe }}');
+    </script>
+    <script type="module" src="{{ url_for('static', filename='dist/performance_monitor.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='dist/dashboard.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='dist/graph_1h.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='dist/search.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='dist/multi_category_search.js') }}" defer></script>
+</head>
+<body>
+    <div class="header">
+        <div class="title-section">
+            <h1>Crypto Category Strength Against BTC</h1>
+            <h2>Live Tracker</h2>
+        </div>
+        <div class="stats">
+            <span>Current Number of Categorizations: <strong class="aqua">26</strong></span>
+            <span>Cryptocurrencies Tracked: <strong class="aqua">294</strong></span>
+            <span>Updated Every: <strong class="red">10Min</strong></span>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <div class="main-container">
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul class="category-list">
+                <!-- Categories will be dynamically loaded from categories.json -->
+            </ul>
+        </div>
+
+        <div class="right-section">
+            <div class="controls-container">
+                <div class="controls-section">
+                    <div class="calculation-group">
+                        <label>Calculation Method:</label>
+                        <select>
+                            <option value="Top5Category">Top 5 in category</option>
+                            <option value="Top10Category">Top 10 in category</option>
+                            <option value="Top15Category">Top 15 in category</option>
+                            <option value="Top20Category">Top 20 in category</option>
+                            <option value="Top100Overall">Top 100 overall</option>
+                            <option value="Top200Overall">Top 200 overall</option>
+                        </select>
+                    </div>
+                    <div class="intervals-group">
+                        <label>Intervals:</label>
+                        <button class="interval-toggle active">10Min</button>
+                        <button class="interval-toggle">1H</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="graph-container">
+                <canvas id="strengthChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="advanced-search-section">
+        <div class="advanced-search-container">
+            <div class="advanced-search-content">
+                <h3>Advanced Search</h3>
+                <form id="searchForm" class="search-controls">
+                    <div class="dropdown-group">
+                        <label>Date</label>
+                        <input type="text" id="dateSelect" placeholder="Select date" readonly>
+                    </div>
+                    <div class="dropdown-group">
+                        <label>Category</label>
+                        <select id="categorySelect">
+                            <option value="" disabled selected>Select category</option>
+                        </select>
+                    </div>
+                    <div class="dropdown-group">
+                        <label>Calculation</label>
+                        <select id="calculationSelect">
+                            <option value="" disabled selected>Select calculation</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-button">SEARCH</button>
+                </form>
+            </div>
+        </div>
+        <div class="info-container">
+            <div class="info-text">
+                <span class="info-message">Search which coins were included in<br>each category and their calculation<br>methods on different dates.</span><svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <div class="info-hover">
+                    This search allows you to view which cryptocurrencies were included in each category's calculations on specific dates. For example, if you select:
+
+                    • Date: Feb 20, 2024
+                    • Category: AI
+                    • Calculation: Top 10 Market Cap
+
+                    You'll see the exact 10 cryptocurrencies that were used to calculate the AI category's strength on that date. Categories are refreshed daily based on market conditions, so this tool helps track how category compositions have changed over time.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="extended-search-container">
+        <!-- View All Tokens Section -->
+        <div class="search-feature-card">
+            <div class="feature-content">
+                <h3 class="feature-title">Protocol Cryptocurrency List</h3>
+                <p class="feature-description">Explore <span class="highlight">all cryptocurrencies</span> currently tracked in our protocol</p>
+                <a href="{{ url_for('token_list') }}" target="_blank" class="feature-button">
+                    <span class="button-text">View Cryptocurrencies</span>
+                    <span class="button-icon">→</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- View Categories Section -->
+        <div class="search-feature-card">
+            <div class="feature-content">
+                <h3 class="feature-title">Category Explorer</h3>
+                <p class="feature-description">Browse <span class="highlight">complete lists</span> of cryptocurrencies by category</p>
+                <a href="{{ url_for('category_explorer') }}" target="_blank" class="feature-button">
+                    <span class="button-text">View Categories</span>
+                    <span class="button-icon">→</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Multi-Category Search Section -->
+        <div class="search-feature-card">
+            <div class="feature-content">
+                <h3 class="feature-title">Multi-Category Search</h3>
+                <p class="feature-description">Find cryptocurrencies matching multiple categories</p>
+                <div class="category-selectors">
+                    <select class="category-select" id="category-select-1" placeholder="Select Category 1">
+                        <option value="" disabled selected>Select Category 1</option>
+                    </select>
+                    <select class="category-select" id="category-select-2" placeholder="Select Category 2">
+                        <option value="" disabled selected>Select Category 2</option>
+                    </select>
+                    <select class="category-select" id="category-select-3" placeholder="Select Category 3">
+                        <option value="" disabled selected>Select Category 3</option>
+                    </select>
+                </div>
+                <div id="multi-category-error" class="error-message" style="display: none; color: #ff4444; margin: 10px 0;"></div>
+                <button class="feature-button" id="multi-category-search-btn">
+                    <span class="button-text">Search</span>
+                    <span class="button-icon">→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add performance logging
+        console.time('Total Page Load');
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.timeEnd('Total Page Load');
+            console.time('Chart Initialization');
+            
+            // Original chart initialization code here
+            window.addEventListener('load', function() {
+                console.timeEnd('Chart Initialization');
+            });
+        });
+    </script>
+
+</body>
+</html>

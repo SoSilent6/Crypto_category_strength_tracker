@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol Cryptocurrency List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="main-content token-list-page">
+        <div class="compact-header">
+            <h1>Protocol Cryptocurrency List</h1>
+            <p class="description">Complete list of all cryptocurrencies tracked in our protocol</p>
+            <a href="/" class="back-link">← Back to Dashboard</a>
+        </div>
+
+        <div class="search-section">
+            <input type="text" id="tokenSearch" placeholder="Search by symbol or name..." class="search-input">
+        </div>
+
+        <div class="data-table token-list">
+            <div class="table-header">
+                <div class="col">Symbol</div>
+                <div class="col">Name</div>
+                <div class="col">Categories</div>
+                <div class="col">Date Added</div>
+            </div>
+
+            <div class="table-body" id="tokenTableBody">
+                {% for token in tokens %}
+                <div class="table-row" data-symbol="{{ token.symbol|lower }}" data-name="{{ token.name|lower }}">
+                    <div class="col token-symbol">{{ token.symbol }}</div>
+                    <div class="col token-name">{{ token.name }}</div>
+                    <div class="col token-categories">{{ token.category if token.category else '' }}</div>
+                    <div class="col token-date"><!-- To be implemented --></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('tokenSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('.table-row');
+            
+            rows.forEach(row => {
+                const symbol = row.getAttribute('data-symbol');
+                const name = row.getAttribute('data-name');
+                const matches = symbol.includes(searchTerm) || name.includes(searchTerm);
+                row.style.display = matches ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+    "categoryColors": {
+        "AI Agents": "#00CED1",            
+        "AI Infrastructure": "#40E0D0",     
+        "Asset Management": "#00FFFF",      
+        "Cefi Platforms": "#F8F8FF",        
+        "Computing Networks": "#E0E0E0",    
+        "Decentralized Exchanges": "#8B4513",
+        "DeFi Protocols": "#A0522D",        
+        "DePIN Protocols": "#32CD32",        
+        "Derivatives Protocols": "#228B22",  
+        "Entertainment & Media": "#0000FF",  
+        "Exchange Tokens": "#4169E1",       
+        "Gaming Platforms": "#FFD700",      
+        "Identity Protocols": "#FFF44F",    
+        "Infrastructure Protocols": "#DAA520",
+        "Layer 1": "#FF4500",              
+        "Layer 2 Solutions": "#FF8C00",     
+        "Meme Tokens": "#FF0000",          
+        "NA": "#64748B",                    
+        "NFT Infrastructure": "#800080",    
+        "Oracle Networks": "#4B0082",       
+        "Payment Networks": "#FF1493",      
+        "Privacy Solutions": "#FF69B4",     
+        "RWA Protocols": "#D2B48C",        
+        "Storage & Computing": "#F0E68C",   
+        "Storage Networks": "#C0C0C0",      
+        "Wallet Solutions": "#CD7F32"       
+    }
+}

@@ -1,0 +1,32 @@
+services:
+  # Web Service
+  - type: web
+    name: crypto-tracker-web
+    env: python
+    buildCommand: pip install -r requirements.txt && npm install && npm run build
+    startCommand: gunicorn webapp:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: CACHE_DIR
+        value: /opt/render/cache
+    disk:
+      name: cache
+      mountPath: /opt/render/cache
+      sizeGB: 1
+
+  # Background Worker
+  - type: worker
+    name: crypto-tracker-worker
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python worker.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: CACHE_DIR
+        value: /opt/render/cache
+    disk:
+      name: cache
+      mountPath: /opt/render/cache
+      sizeGB: 1

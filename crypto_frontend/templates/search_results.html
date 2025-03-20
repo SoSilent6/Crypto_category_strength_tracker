@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="main-content">
+        <div class="header-section">
+            <h1>Category Search Results</h1>
+            <p class="description">
+                {% if error %}
+                    {{ error }}
+                {% else %}
+                    Displaying Top {{ calculation.split('_')[1] }} coins (by market cap) in the {{ category }} category on the day of {{ date }}
+                {% endif %}
+            </p>
+        </div>
+
+        <a href="/" class="back-link">← Back to Dashboard</a>
+
+        <div class="data-table">
+            <div class="table-header">
+                <div class="col cryptocurrency">Cryptocurrency</div>
+                <div class="col rank-category">Rank In Category<br/><span>(By Market Cap)</span></div>
+                <div class="col rank-overall">Overall Rank<br/><span>(By Market Cap)</span></div>
+                <div class="col strength-current">Current Strength<br/><span>(VS BTC)</span></div>
+                <div class="col strength-4h">Strength Change<br/><span>(4h)</span></div>
+                <div class="col strength-24h">Strength Change<br/><span>(24h)</span></div>
+                <div class="col other-categories">Other Categories<br/><span>(This Project Also Falls In)</span></div>
+            </div>
+
+            <div class="table-body">
+                {% for token in tokens %}
+                <div class="table-row">
+                    <div class="col cryptocurrency">
+                        <div class="token-symbol">{{ token.symbol }}</div>
+                        <div class="token-name">{{ token.name }}</div>
+                    </div>
+                    <div class="col rank-category">{{ token.category_rank }}</div>
+                    <div class="col rank-overall">{{ token.overall_rank }}</div>
+                    <div class="col strength-current">
+                        {% if token.current_strength is not none %}
+                            {{ "%.3f"|format(token.current_strength) }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                    <div class="col strength-4h">
+                        {% if token.strength_change_4h is not none %}
+                            <span class="{% if token.strength_change_4h > 0 %}positive{% elif token.strength_change_4h < 0 %}negative{% endif %}">
+                                {{ '+' if token.strength_change_4h > 0 }}{{ "%.3f"|format(token.strength_change_4h) }}
+                            </span>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                    <div class="col strength-24h">
+                        {% if token.strength_change_24h is not none %}
+                            <span class="{% if token.strength_change_24h > 0 %}positive{% elif token.strength_change_24h < 0 %}negative{% endif %}">
+                                {{ '+' if token.strength_change_24h > 0 }}{{ "%.3f"|format(token.strength_change_24h) }}
+                            </span>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                    <div class="col other-categories">-</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='dist/search.js') }}"></script>
+</body>
+</html>
