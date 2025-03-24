@@ -22,7 +22,6 @@
     <script type="module" src="{{ url_for('static', filename='dist/dashboard.js') }}" defer></script>
     <script type="module" src="{{ url_for('static', filename='dist/graph_1h.js') }}" defer></script>
     <script type="module" src="{{ url_for('static', filename='dist/search.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='dist/multi_category_search.js') }}" defer></script>
 </head>
 <body>
     <div class="header">
@@ -138,30 +137,6 @@
                     <span class="button-text">View Categories</span>
                     <span class="button-icon">→</span>
                 </a>
-            </div>
-        </div>
-
-        <!-- Multi-Category Search Section -->
-        <div class="search-feature-card">
-            <div class="feature-content">
-                <h3 class="feature-title">Multi-Category Search</h3>
-                <p class="feature-description">Find cryptocurrencies matching multiple categories</p>
-                <div class="category-selectors">
-                    <select class="category-select" id="category-select-1" placeholder="Select Category 1">
-                        <option value="" disabled selected>Select Category 1</option>
-                    </select>
-                    <select class="category-select" id="category-select-2" placeholder="Select Category 2">
-                        <option value="" disabled selected>Select Category 2</option>
-                    </select>
-                    <select class="category-select" id="category-select-3" placeholder="Select Category 3">
-                        <option value="" disabled selected>Select Category 3</option>
-                    </select>
-                </div>
-                <div id="multi-category-error" class="error-message" style="display: none; color: #ff4444; margin: 10px 0;"></div>
-                <button class="feature-button" id="multi-category-search-btn">
-                    <span class="button-text">Search</span>
-                    <span class="button-icon">→</span>
-                </button>
             </div>
         </div>
     </div>

@@ -46,13 +46,24 @@ let currentChartType = '10min';  // default to 10min chart
 
 // Define default checked categories
 const defaultCheckedCategories = [
-    'Computing Networks',
-    'AI Agents',
-    'AI Infrastructure',
-    'Decentralized Exchanges',
-    'Exchange Tokens',
-    'RWA Protocols',
-    'Oracle Networks'
+    'AI & Data',
+    'Defi',
+    'Enterprise',
+    'DEX',
+    'Exchanges',
+    'Gaming & Metaverse',
+    'Oracles',
+    'Infrastructure',
+    'Storage',
+    'General Purpose Blockchains',
+    'Scalable Blockchains',
+    'Interoperability Blockchains',
+    'Privacy Focused Blockchains',
+    'L2 & Scaling',
+    'Memecoins',
+    'NFT',
+    'Privacy',
+    'RWA'
 ];
 
 document.addEventListener('DOMContentLoaded', function() {
