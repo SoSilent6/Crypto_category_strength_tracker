@@ -145,10 +145,9 @@ function initChart() {
                 }
             },
             interaction: {
-                intersect: true,
                 mode: 'nearest',
-                axis: 'xy',
-                radius: 8
+                intersect: true,
+                axis: 'x'
             },
             hover: {
                 mode: 'nearest',
@@ -157,7 +156,8 @@ function initChart() {
             },
             elements: {
                 point: {
-                    radius: 8
+                    radius: 4,
+                    hitRadius: 8
                 }
             },
             spanGaps: true,
@@ -229,6 +229,35 @@ function initChart() {
                         enabled: true,
                         mode: 'xy',
                         threshold: 0,  // no threshold for panning
+                        onPanComplete: function(context) {
+                            console.log('🔄 Pan event triggered');
+                            const {min, max} = context.chart.scales.x;
+                            console.log('Time range after pan:', {min, max});
+                            
+                            // Get all available data for current calculation type
+                            const allData = window.preloadedData[currentCalculationType];
+                            
+                            // Update each dataset with points that fall within the visible time range
+                            context.chart.data.datasets.forEach((dataset, index) => {
+                                const categoryData = allData[dataset.label];
+                                if (categoryData) {
+                                    // Filter points within the visible time range and limit to EXTENDED_DATA_MAX
+                                    const visiblePoints = categoryData
+                                        .filter(p => {
+                                            const timestamp = new Date(p.timestamp);
+                                            return timestamp >= min && timestamp <= max;
+                                        })
+                                        .slice(-EXTENDED_DATA_MAX)
+                                        .map(p => ({
+                                            x: new Date(p.timestamp),
+                                            y: p.strength
+                                        }));
+                                    dataset.data = visiblePoints;
+                                }
+                            });
+                            
+                            context.chart.update('none'); // Update without animation
+                        }
                     },
                     zoom: {
                         mode: 'x',  // Set the main zoom mode to X-axis only
@@ -255,13 +284,18 @@ function initChart() {
                     display: false  // hide the legend
                 },
                 tooltip: {
-                    mode: 'nearest',
+                    enabled: true,
+                    mode: 'index',
                     intersect: true,
+                    position: 'nearest',
                     backgroundColor: '#1D1D29',
                     titleColor: '#787c99',
                     bodyColor: '#787c99',
                     borderColor: '#787c99',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    itemSort: function(a, b) {
+                        return b.raw.y - a.raw.y;
+                    }
                 }
             },
             onZoomComplete: function(context) {  

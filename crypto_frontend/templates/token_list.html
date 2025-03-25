@@ -25,7 +25,6 @@
                 <div class="col">Symbol</div>
                 <div class="col">Name</div>
                 <div class="col">Categories</div>
-                <div class="col">Date Added</div>
             </div>
 
             <div class="table-body" id="tokenTableBody">
@@ -34,7 +33,6 @@
                     <div class="col token-symbol">{{ token.symbol }}</div>
                     <div class="col token-name">{{ token.name }}</div>
                     <div class="col token-categories">{{ token.category if token.category else '' }}</div>
-                    <div class="col token-date"><!-- To be implemented --></div>
                 </div>
                 {% endfor %}
             </div>

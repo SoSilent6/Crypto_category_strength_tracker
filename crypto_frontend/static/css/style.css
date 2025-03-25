@@ -45,6 +45,43 @@ body {
     font-weight: bold;
 }
 
+.title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 2px;
+}
+
+.video-demo-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--darkest);
+    color: var(--aqua);
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid var(--aqua);
+    height: 36px;
+    line-height: 1;
+    margin-top: 5px;
+}
+
+.video-demo-button:hover {
+    background-color: var(--aqua);
+    color: var(--darkest);
+    transform: translateY(-1px);
+}
+
+.video-demo-button svg {
+    width: 16px;
+    height: 16px;
+}
+
 .stats {
     display: flex;
     gap: 40px;
@@ -194,7 +231,7 @@ body {
     top: 1px;
     width: 6px;
     height: 12px;
-    border: solid white;
+    border: solid var(--darkest);
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
@@ -300,8 +337,8 @@ body {
 }
 
 .interval-toggle.active {
-    background-color: var(--aqua);
-    color: white;
+    background-color: var(--darkest);
+    color: var(--aqua);
 }
 
 .interval-toggle.disabled {
@@ -668,7 +705,7 @@ body {
 /* Adjust grid for token list table */
 .token-list .table-header,
 .token-list .table-row {
-    grid-template-columns: 15% 25% 45% 15%;  /* Symbol, Name, Categories, Date Added */
+    grid-template-columns: 15% 25% 60%;  /* Symbol, Name, Categories */
 }
 
 .date-added {
@@ -708,7 +745,7 @@ body {
 /* Token List Table Styles */
 .token-list .table-header {
     display: grid;
-    grid-template-columns: 15% 25% 45% 15%;
+    grid-template-columns: 15% 25% 60%;
     padding: 1rem 1.5rem;
     color: var(--text-muted);
     font-size: 1.1rem;  
@@ -719,7 +756,7 @@ body {
 
 .token-list .table-row {
     display: grid;
-    grid-template-columns: 15% 25% 45% 15%;
+    grid-template-columns: 15% 25% 60%;
     padding: 0 1.5rem;
     align-items: center;
     background: var(--darker);
@@ -937,7 +974,7 @@ body {
 
 .token-list .table-header {
     display: grid;
-    grid-template-columns: 15% 25% 45% 15%;
+    grid-template-columns: 15% 25% 60%;
     padding: 0.75rem 1.5rem;
     color: var(--text-muted);
     font-size: 1rem;
@@ -948,7 +985,7 @@ body {
 
 .token-list .table-row {
     display: grid;
-    grid-template-columns: 15% 25% 45% 15%;
+    grid-template-columns: 15% 25% 60%;
     padding: 0 1.5rem;
     align-items: center;
     background: var(--darker);

@@ -221,18 +221,12 @@
                     <tr>
                         <th>Symbol</th>
                         <th>Name</th>
-                        <th>
-                            Other Categories 
-                            <span style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">
-                                (This project also falls in)
-                            </span>
-                        </th>
                     </tr>
                 </thead>
                 <tbody id="token-list">
                     <!-- Token data will be loaded here -->
                     <tr>
-                        <td colspan="3" class="empty-state">Select a category to view tokens</td>
+                        <td colspan="2" class="empty-state">Select a category to view tokens</td>
                     </tr>
                 </tbody>
             </table>
@@ -244,7 +238,7 @@
             const categoryButtons = document.querySelectorAll('.category-button');
             const tokenList = document.getElementById('token-list');
             const selectedCategoryTitle = document.getElementById('selected-category');
-            const allTokens = {{ all_tokens|tojson|safe }};
+            const allTokens = JSON.parse('{{ all_tokens|tojson|safe }}');
             
             // Debug logging
             console.log("All tokens loaded:", allTokens);
@@ -256,29 +250,13 @@
                 const tokens = allTokens[category];
                 
                 if (!tokens || tokens.length === 0) {
-                    tokenList.innerHTML = `
-                        <tr>
-                            <td colspan="3" class="empty-state">No tokens found in this category</td>
-                        </tr>
-                    `;
+                    tokenList.innerHTML = '<tr><td colspan="2" class="empty-state">No tokens found in this category</td></tr>';
                     return;
                 }
                 
-                tokenList.innerHTML = tokens.map(token => `
-                    <tr>
-                        <td>${token.symbol}</td>
-                        <td>${token.name}</td>
-                        <td>
-                            <div class="other-categories">
-                                ${token.other_categories.map(cat => `
-                                    <span class="category-tag">
-                                        ${cat}
-                                    </span>
-                                `).join('')}
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
+                tokenList.innerHTML = tokens.map(function(token) {
+                    return '<tr><td>' + token.symbol + '</td><td>' + token.name + '</td></tr>';
+                }).join('');
             }
             
             categoryButtons.forEach(button => {
